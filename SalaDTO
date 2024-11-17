@@ -1,0 +1,30 @@
+package DTO;
+
+public class Sala {
+	
+	private int numeroSala;
+	private int asisentos;
+	private Pelicula pelicula;
+	public int getNumeroSala() {
+		return numeroSala;
+	}
+	public void setNumeroSala(int numeroSala) {
+		this.numeroSala = numeroSala;
+	}
+	public int getAsisentos() {
+		return asisentos;
+	}
+	public void setAsisentos(int asisentos) {
+		this.asisentos = asisentos;
+	}
+	public Pelicula getPelicula() {
+		return pelicula;
+	}
+	public void setPelicula(Pelicula pelicula) {
+		this.pelicula = pelicula;
+	}
+	
+	
+	
+	
+}
