@@ -1,0 +1,13 @@
+package DAO;
+
+import DTO.Sala;
+import java.util.List;
+
+public interface ISala {
+	
+    void guardar(Sala sala); 
+    Sala buscarPorNumero(int numeroSala); 
+    boolean actualizar(Sala salaActualizada); 
+    boolean eliminar(int numeroSala); 
+    List<Sala> listarTodas(); 
+}
