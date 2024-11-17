@@ -1,0 +1,41 @@
+package DTO;
+
+public class Pelicula {
+	private String nombre;
+	private String director;
+	private String clasificacion;
+	private String genero;
+	public Pelicula(String nombre, String director, String clasificacion, String genero) {
+		super();
+		this.nombre = nombre;
+		this.director = director;
+		this.clasificacion = clasificacion;
+		this.genero = genero;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getDirector() {
+		return director;
+	}
+	public void setDirector(String director) {
+		this.director = director;
+	}
+	public String getClasificacion() {
+		return clasificacion;
+	}
+	public void setClasificacion(String clasificacion) {
+		this.clasificacion = clasificacion;
+	}
+	public String getGenero() {
+		return genero;
+	}
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+	
+	
+}
