@@ -1,0 +1,51 @@
+package Controlador;
+
+import Interfaces.ISalaDAO;
+import DTO.Pelicula;
+import DTO.Sala;
+import Vista.VistaSala;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class ControladorSala implements ActionListener {
+    private ISalaDAO salaDAO;
+    private VistaSala vista;
+
+    public ControladorSala(ISalaDAO salaDAO, VistaSala vista) {
+        this.salaDAO = salaDAO;
+        this.vista = vista;
+
+        // Registrar eventos en los botones de la vista
+        this.vista.getBtnAsignarPelicula().addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Identificar el origen del evento
+        if (e.getSource() == vista.getBtnAsignarPelicula()) {
+            // Lógica para asignar película
+            int numeroSala = vista.obtenerNumeroSala();
+            Pelicula pelicula = vista.obtenerPelicula();
+
+            boolean asignada = asignarPeliculaASala(numeroSala, pelicula);
+
+            if (asignada) {
+                vista.mostrarMensaje("Película asignada correctamente a la sala " + numeroSala);
+            } else {
+                vista.mostrarMensaje("Error: No se pudo asignar la película. Verifique el número de sala.");
+            }
+        }
+    }
+
+    public boolean asignarPeliculaASala(int numeroSala, Pelicula pelicula) {
+        Sala sala = salaDAO.buscarPorNumero(numeroSala);
+        if (sala != null) {
+            sala.asignarPelicula(pelicula);
+            salaDAO.actualizar(sala);
+            return true;
+        }
+        return false;
+    }
+}
+
+
