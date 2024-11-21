@@ -1,50 +1,10 @@
 package Vista;
 
-import DTO.Pelicula;
+import controlador.ControladorSala;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class VistaSala extends JFrame {
-    private JButton btnAsignarPelicula;
-    private JTextField txtNumeroSala;
-    private JTextField txtPelicula;
-
-    public VistaSala() {
-        setTitle("Gestión de Salas de Cine");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
-
-        JLabel lblNumeroSala = new JLabel("Número de Sala:");
-        txtNumeroSala = new JTextField(10);
-
-        JLabel lblPelicula = new JLabel("Película:");
-        txtPelicula = new JTextField(10);
-
-        btnAsignarPelicula = new JButton("Asignar Película");
-
-        add(lblNumeroSala);
-        add(txtNumeroSala);
-        add(lblPelicula);
-        add(txtPelicula);
-        add(btnAsignarPelicula);
-    }
-
-    public JButton getBtnAsignarPelicula() {
-        return btnAsignarPelicula;
-    }
-
-    public int obtenerNumeroSala() {
-        return Integer.parseInt(txtNumeroSala.getText());
-    }
-
-    public Pelicula obtenerPelicula() {
-        String nombre = txtPelicula.getText();
-        return new Pelicula(nombre, "Director Desconocido", "A", "Teatro 1", "Acción"); // Ejemplo básico
-    }
-
-    public void mostrarMensaje(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje);
+public class VistaSala {
+    public static void main(String[] args) {
+        ControladorSala controlador = new ControladorSala();
+        controlador.asignarPeliculaASala();
     }
 }
