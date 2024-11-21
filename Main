@@ -1,0 +1,75 @@
+package Main;
+
+import modelo.dao.SalaDAO;
+import modelo.dto.Pelicula;
+import modelo.dto.Sala;
+
+import javax.swing.JOptionPane;
+
+public class modulo {
+    public static void main(String[] args) {
+        
+        SalaDAO salaDAO = new SalaDAO();
+
+       
+        String nombrePelicula = JOptionPane.showInputDialog("Ingrese el nombre de la película:");
+        String director = JOptionPane.showInputDialog("Ingrese el nombre del director:");
+        String clasificacion = JOptionPane.showInputDialog("Ingrese la clasificación de la película (e.g., PG, R):");
+        String actores = JOptionPane.showInputDialog("Ingrese los actores principales (separados por comas):");
+        String generoStr = JOptionPane.showInputDialog("Ingrese el género (1 = Acción, 2 = Aventura, 3 = Fantasía):");
+
+        
+        int genero;
+        try {
+            genero = Integer.parseInt(generoStr);
+            if (genero < 1 || genero > 3) {
+                throw new IllegalArgumentException("Género fuera de rango.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Género no válido. Se asignará 'Acción' por defecto.");
+            genero = 1; 
+        }
+
+      
+        Pelicula pelicula = new Pelicula(nombrePelicula, director, clasificacion, actores, getGeneroString(genero));
+
+      
+        String numeroSalaStr = JOptionPane.showInputDialog("Ingrese el número de la sala (1, 2 o 3):");
+        int numeroSala;
+        try {
+            numeroSala = Integer.parseInt(numeroSalaStr);
+            if (numeroSala < 1 || numeroSala > 3) {
+                throw new IllegalArgumentException("Número de sala fuera de rango.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Número de sala no válido. Se asignará la sala 1 por defecto.");
+            numeroSala = 1; // Por defecto
+        }
+
+        // Asignar la película a la sala
+        Sala sala = new Sala(numeroSala,15);
+        sala.asignarPelicula(pelicula);
+
+        // Guardar la sala en el sistema
+        salaDAO.update(sala);
+
+        // Mostrar resultado al usuario
+        JOptionPane.showMessageDialog(null, "Película asignada correctamente a la sala:\n" +
+                "Sala: " + numeroSala + "\n" +
+                "Película: " + pelicula.getNombre() + "\n" +
+                "Director: " + pelicula.getDirector() + "\n" +
+                "Clasificación: " + pelicula.getClasificacion() + "\n" +
+                "Actores: " + pelicula.getActores() + "\n" +
+                "Género: " + pelicula.getGenero());
+    }
+
+    // Método para convertir género numérico a texto
+    private static String getGeneroString(int genero) {
+        switch (genero) {
+            case 1: return "Acción";
+            case 2: return "Aventura";
+            case 3: return "Fantasía";
+            default: return "Acción"; // Por defecto
+        }
+    }
+}
