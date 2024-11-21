@@ -1,30 +1,50 @@
-package DTO;
+package modelo.dto;
 
 public class Sala {
-	
-	private int numeroSala;
-	private int asisentos;
-	private Pelicula pelicula;
-	public int getNumeroSala() {
-		return numeroSala;
-	}
-	public void setNumeroSala(int numeroSala) {
-		this.numeroSala = numeroSala;
-	}
-	public int getAsisentos() {
-		return asisentos;
-	}
-	public void setAsisentos(int asisentos) {
-		this.asisentos = asisentos;
-	}
-	public Pelicula getPelicula() {
-		return pelicula;
-	}
-	public void setPelicula(Pelicula pelicula) {
-		this.pelicula = pelicula;
-	}
-	
-	
-	
-	
+    private Pelicula pelicula;
+    private int numeroSala;
+    private int asientos; // Total de asientos disponibles
+
+    public Sala(int numeroSala, int asientos) {
+        this.numeroSala = numeroSala;
+        this.asientos = asientos;
+        this.pelicula = null; // Inicialmente, la sala no tiene película asignada
+    }
+
+    public Pelicula getPelicula() {
+        return pelicula;
+    }
+
+    public void setPelicula(Pelicula pelicula) {
+        this.pelicula = pelicula;
+    }
+
+    public int getNumeroSala() {
+        return numeroSala;
+    }
+
+    public void setNumeroSala(int numeroSala) {
+        this.numeroSala = numeroSala;
+    }
+
+    public int getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(int asientos) {
+        this.asientos = asientos;
+    }
+
+    public Sala asignarPelicula(Pelicula pelicula) {
+        this.pelicula = pelicula;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Sala " + numeroSala + " - Película: " + 
+               (pelicula != null ? pelicula.getNombre() : "No asignada") +
+               " - Asientos disponibles: " + asientos;
+    }
 }
+
