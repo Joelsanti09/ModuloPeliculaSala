@@ -1,41 +1,85 @@
-package DTO;
+package modelo.dto;
 
 public class Pelicula {
-	private String nombre;
-	private String director;
-	private String clasificacion;
-	private String genero;
-	public Pelicula(String nombre, String director, String clasificacion, String genero) {
-		super();
-		this.nombre = nombre;
-		this.director = director;
-		this.clasificacion = clasificacion;
-		this.genero = genero;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getDirector() {
-		return director;
-	}
-	public void setDirector(String director) {
-		this.director = director;
-	}
-	public String getClasificacion() {
-		return clasificacion;
-	}
-	public void setClasificacion(String clasificacion) {
-		this.clasificacion = clasificacion;
-	}
-	public String getGenero() {
-		return genero;
-	}
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
-	
-	
+    private String nombre;
+    private String director;
+    private String clasificacion; 
+    private String actores;       // Lista de actores (puede ser un String separado por comas)
+    private String genero;        // Género: Acción, Aventura, Fantasía
+
+    public Pelicula() {
+    }
+
+    public Pelicula(String nombre, String director, String clasificacion, String actores, String genero) {
+        this.nombre = nombre;
+        this.director = director;
+        this.clasificacion = clasificacion;
+        this.actores = actores;
+        this.genero = genero;
+    }
+
+    // Getters y Setters
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getClasificacion() {
+        return clasificacion;
+    }
+
+    public void setClasificacion(String clasificacion) {
+        this.clasificacion = clasificacion;
+    }
+
+    public String getActores() {
+        return actores;
+    }
+
+    public void setActores(String actores) {
+        this.actores = actores;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    
+    public void comprobargenero(int numero) {
+        switch (numero) {
+            case 1 -> this.genero = "Acción";
+            case 2 -> this.genero = "Aventura";
+            case 3 -> this.genero = "Fantasía";
+            default -> {
+                this.genero = "Acción"; // Género por defecto
+                System.out.println("Género inválido. Se asignó el género por defecto: Acción.");
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Pelicula{" +
+               "Nombre='" + nombre + '\'' +
+               ", Director='" + director + '\'' +
+               ", Clasificación='" + clasificacion + '\'' +
+               ", Actores='" + actores + '\'' +
+               ", Género='" + genero + '\'' +
+               '}';
+    }
 }
