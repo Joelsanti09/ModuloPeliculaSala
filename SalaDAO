@@ -1,56 +1,55 @@
-package DAO;
+package modelo.dao;
 
-import DTO.Sala;
 import java.util.ArrayList;
 import java.util.List;
+import modelo.dto.Pelicula;
+import modelo.dto.Sala;
 
-public class SalaDAO implements ISala {
+public class SalaDAO {
     private List<Sala> salas;
 
     public SalaDAO() {
-        this.salas = new ArrayList<>();
+        salas = new ArrayList<>();
+        	
+        salas.add(new Sala(1, 15));
+        salas.add(new Sala(2, 15));
+        salas.add(new Sala(3, 15));
     }
 
-    @Override
-    public void guardar(Sala sala) {
-        salas.add(sala);
+    public boolean create(Sala sala) {
+        return salas.add(sala);
     }
 
-    @Override
-    public Sala buscarPorNumero(int numeroSala) {
+    public Sala read(int numeroSala) {
         for (Sala sala : salas) {
             if (sala.getNumeroSala() == numeroSala) {
                 return sala;
             }
         }
-        return null; 
+        return null;
     }
 
-    @Override
-    public boolean actualizar(Sala salaActualizada) {
-        Sala salaExistente = buscarPorNumero(salaActualizada.getNumeroSala());
-        if (salaExistente != null) {
-            salaExistente.setAsientos(salaActualizada.getAsientos());
-            salaExistente.setPelicula(salaActualizada.getPelicula());
+    public boolean update(Sala sala) {
+        int index = buscarIndex(sala);
+        if (index >= 0) {
+            salas.set(index, sala);
             return true;
         }
         return false;
     }
 
-    @Override
-    public boolean eliminar(int numeroSala) {
-        Sala sala = buscarPorNumero(numeroSala);
-        if (sala != null) {
-            salas.remove(sala);
-            return true;
-        }
-        return false;
+    public List<Sala> readAll() {
+        return salas;
     }
 
-    @Override
-    public List<Sala> listarTodas() {
-        return new ArrayList<>(salas); // Retornar una copia de la lista
+    public int buscarIndex(Sala sala) {
+        return salas.indexOf(sala);
+    }
+
+    public boolean asignarPelicula(Sala sala, Pelicula pelicula) {
+        sala.setPelicula(pelicula);
+        return update(sala);
     }
 }
-	
+
 
