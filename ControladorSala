@@ -1,51 +1,58 @@
-package Controlador;
+package controlador;
 
-import Interfaces.ISalaDAO;
-import DTO.Pelicula;
-import DTO.Sala;
-import Vista.VistaSala;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import modelo.dao.SalaDAO;
+import modelo.dto.Pelicula;
+import modelo.dto.Sala;
 
-public class ControladorSala implements ActionListener {
-    private ISalaDAO salaDAO;
-    private VistaSala vista;
+import javax.swing.JOptionPane;
 
-    public ControladorSala(ISalaDAO salaDAO, VistaSala vista) {
-        this.salaDAO = salaDAO;
-        this.vista = vista;
+public class ControladorSala {
+    private SalaDAO salaDAO;
 
-        // Registrar eventos en los botones de la vista
-        this.vista.getBtnAsignarPelicula().addActionListener(this);
+    public ControladorSala() {
+        salaDAO = new SalaDAO();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Identificar el origen del evento
-        if (e.getSource() == vista.getBtnAsignarPelicula()) {
-            // Lógica para asignar película
-            int numeroSala = vista.obtenerNumeroSala();
-            Pelicula pelicula = vista.obtenerPelicula();
-
-            boolean asignada = asignarPeliculaASala(numeroSala, pelicula);
-
-            if (asignada) {
-                vista.mostrarMensaje("Película asignada correctamente a la sala " + numeroSala);
-            } else {
-                vista.mostrarMensaje("Error: No se pudo asignar la película. Verifique el número de sala.");
+    public void asignarPeliculaASala() {
+        try {
+            // Mostrar las salas disponibles
+            StringBuilder listaSalas = new StringBuilder("Salas disponibles:\n");
+            for (Sala sala : salaDAO.readAll()) {
+                listaSalas.append(sala.toString()).append("\n");
             }
-        }
-    }
+            JOptionPane.showMessageDialog(null, listaSalas.toString());
 
-    public boolean asignarPeliculaASala(int numeroSala, Pelicula pelicula) {
-        Sala sala = salaDAO.buscarPorNumero(numeroSala);
-        if (sala != null) {
-            sala.asignarPelicula(pelicula);
-            salaDAO.actualizar(sala);
-            return true;
+            // Seleccionar sala
+            int numeroSala = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de la sala:"));
+            Sala salaSeleccionada = salaDAO.read(numeroSala);
+
+            if (salaSeleccionada == null) {
+                JOptionPane.showMessageDialog(null, "Sala no encontrada.");
+                return;
+            }
+
+            // Ingresar datos de la película
+            Pelicula pelicula = new Pelicula();
+            pelicula.setNombre(JOptionPane.showInputDialog("Ingrese el nombre de la película:"));
+            pelicula.setDirector(JOptionPane.showInputDialog("Ingrese el director de la película:"));
+            pelicula.setClasificacion(JOptionPane.showInputDialog("Ingrese la clasificación:"));
+
+            // Selección de género
+            String generoStr = """
+                Seleccione el género:
+                1. Acción
+                2. Aventura
+                3. Fantasía
+            """;
+            int genero = Integer.parseInt(JOptionPane.showInputDialog(generoStr));
+            pelicula.comprobargenero(genero);
+
+            // Asignar película
+            salaDAO.asignarPelicula(salaSeleccionada, pelicula);
+            JOptionPane.showMessageDialog(null, "Película asignada exitosamente a la sala " + numeroSala);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al asignar la película: " + e.getMessage());
         }
-        return false;
     }
 }
-
 
